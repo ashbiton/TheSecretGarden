@@ -6,7 +6,7 @@ module.exports = db => {
     let schema = new mongo.Schema({
         name: String,
         surname: String,
-        position: { type: String, enum: ['worker', 'customer', 'manager', 'supplier'], default: "customer" },
+        position: { type: String, enum: ['employee', 'customer', 'manager', 'supplier'], default: "customer" },
         email: String,
         phone: String,
         branch: Number,

@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var session = require('cookie-session');
 var logger = require('morgan');
 const bodyParser = require('body-parser');
+const cors = require("cors");
 
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
@@ -45,6 +46,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(session({secret: secret}));
+app.use(cors());
 
 
 app.use(passport.initialize());

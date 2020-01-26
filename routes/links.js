@@ -9,7 +9,7 @@ router.post('/', async (req, res) => {
     let view = "generalLinks";
     let position = await usersDB.getUserPosition(req.body.username); 
     switch (position) {
-        case "worker":
+        case "employee":
             view = "workerLinks";
             break;
         case "manager":

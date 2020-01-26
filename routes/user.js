@@ -11,17 +11,6 @@ let getInfoByHeaders = (user) => {
     // let supplierHeaders = [...customerHeaders , "flowers"];
     let result_user = {};
     let headers = usersDB.getHeadersForPosition(user.position,false);
-    // switch (user.position) {
-    //     case "supplier":
-    //         headers = supplierHeaders;
-    //     case "worker":
-    //     case "manager":
-    //         headers = workerHeaders;    
-    //         break;
-    //     default:
-    //         headers = customerHeaders;
-    //         break;
-    // }
     headers.forEach(header => {
         result_user[header] = user[header];
     });

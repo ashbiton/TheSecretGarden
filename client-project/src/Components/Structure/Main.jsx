@@ -3,6 +3,7 @@ import { Route, Switch } from "react-router-dom";
 import About from "../General/About";
 import Contact from "../General/Contact";
 import HomePage from "../General/HomePage";
+import UsersPage from "../Users/UsersPage";
 class Main extends Component {
     constructor(props) {
         super(props);
@@ -16,9 +17,8 @@ class Main extends Component {
                 <Route exact path="/home" component={HomePage} />
                 <Route path="/about" component={About} />
                 <Route path="/contact" component={Contact} />
-                {/* <Route path="/register" component={Register}/> */}
                 {/* the following should be a private route */}
-                {/* <Route path="/users" component={UsersRoute} /> */}
+                <Route path="/users" component={UsersPage} />
                 {/* <Route path="/stock" component={StockRoute}/> */}
             {/* <PrivateRoute path="/orders" component={Orders}/> */}
             

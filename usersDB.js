@@ -12,12 +12,12 @@ exports.getUserByPositionHeaders = async (args) => {
 exports.getHeadersForPosition = (position , includePassword) => {
     let customerHeaders = ["name","surname","email","phone", "username"];
     if (includePassword) customerHeaders.push('password');
-    let workerHeaders = [...customerHeaders, "payment","branch","position"];
+    let employeeHeaders = [...customerHeaders, "payment","branch","position"];
     let supplierHeaders = [...customerHeaders , "flowers"];
     switch (position) {
         case "manager":
-        case "worker":
-            return workerHeaders;
+        case "employee":
+            return employeeHeaders;
         case "supplier":
             return supplierHeaders;
         default: 
