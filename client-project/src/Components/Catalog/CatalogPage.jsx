@@ -12,12 +12,12 @@ class CatalogPage extends Component {
         const canAdd = true;
         if (canAdd) {
             return (
-                <div class="container-fluid pt-2">
+                <div className="container-fluid pt-2">
                     <Tabs defaultActiveKey={0}>
                         <Tab eventKey={0} title="Add Flower">
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col">
+                            <div className="container">
+                                <div className="row">
+                                    <div className="col">
                                         <AddFlower />
                                     </div>
                                 </div>

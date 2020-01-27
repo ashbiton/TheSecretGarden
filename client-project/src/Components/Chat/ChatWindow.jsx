@@ -7,7 +7,7 @@ class ChatWindow extends Component {
     render() { 
         return ( 
             <div>
-                <span onClick={this.props.onClose}><i class="fas fa-times"></i></span>
+                <span onClick={this.props.onClose}><i className="fas fa-times"></i></span>
                 <div>
                     Chat Window 
                 </div>

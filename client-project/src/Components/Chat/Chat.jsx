@@ -36,8 +36,8 @@ class ChatWidget extends Component {
     }
     render() {
         return (
-            <div class="round hollow text-center">
-                <a href="#" onClick={this.props.onOpen}><i class="far fa-comment"></i> Open in chat </a>
+            <div className="round hollow text-center">
+                <a href="#" onClick={this.props.onOpen}><i className="far fa-comment"></i> Open in chat </a>
             </div>
          );
     }
