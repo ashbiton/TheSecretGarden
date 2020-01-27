@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Modal } from 'react-bootstrap';
-const { addUser , updateUser } = require('../../utils/server_utils');
+import FormByPosition from "../PositionsForms/FormByPosition";
+const { addUser, updateUser } = require('../../utils/server_utils');
 class AddEditUserModal extends Component {
     constructor(props) {
         super(props);
@@ -8,28 +9,55 @@ class AddEditUserModal extends Component {
             userAddedOrChanged: false
         }
     }
+    onFormSubmitted = async (e) => {
+        e.preventDefault();
+        if (this.props.mode == "edit") {
+            const data = this.collectUserDataEditMode(e);
+            await updateUser(data);
+        }
+        else {
+            const data = this.collectUserDataAddMode(e);
+            await addUser(data);
+        }
+        this.setState({ userAddedOrChanged: true });
+    }
     render() {
-        const isEditing = this.props.mode == "edit";
         const user = this.props.user;
         const position = this.props.position;
         return (
-            <Modal show={this.props.show} onHide={() => { this.props.handleClose(this.state.userAddedOrChanged) }}>
+            <Modal show={this.props.show} onHide={() => { this.props.onClose(this.state.userAddedOrChanged) }}>
                 <Modal.Header closeButton>
+                    <div className="capitilize">{this.props.mode} {position}</div>
                 </Modal.Header>
                 <Modal.Body>
-                    {
-                    /**
-                     * here add logic for adding or editing users
-                     * 
-                     * create a basic form for a all the neccessery positions and according to
-                     * the positon passed in props - load the required form/ if is in editing mode pass the user info to the form part
-                     * and the form part should take the info from the user and set it as the default value.
-                     * if the user in undefined do not set a default value but 
-                     */
-                    }
+                    <form className="form" onSubmit={this.onFormSubmitted}>
+                        <FormByPosition position={position} data={user} />
+                        <button type="submit" className="btn btn-primary">Save</button>
+                    </form>
                 </Modal.Body>
             </Modal>
         );
+    }
+
+    collectUserDataEditMode = (e) => {
+        const data = new FormData(e.currentTarget);
+        if (!data.position) {
+            data.position = this.props.position;
+        }
+        data.forEach((value, key) => {
+            console.log("key", key, "value", value);
+        });
+
+    }
+
+    collectUserDataAddMode = (e) => {
+        const data = new FormData(e.currentTarget);
+        if (!data.position) {
+            data.set("position", this.props.position);
+        }
+        data.forEach((value, key) => {
+            console.log("key", key, "value", value);
+        });
     }
 }
 

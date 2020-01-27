@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
-import LoginModal from '../Modals/LoginModal';
-import RegisterModal from '../Modals/RegisterModal';
-import ForgotPasswordModal from '../Modals/ForgotPasswordModal';
+import LoginModal from './LoginModal';
+import RegisterModal from './RegisterModal';
+import ForgotPasswordModal from './ForgotPasswordModal';
 class RegistrationModals extends Component {
     constructor(props) {
         super(props);

@@ -1,4 +1,3 @@
-const { pluralize } = require('./general_utils');
 const Methods = {
     POST: 'POST',
     GET: 'GET',

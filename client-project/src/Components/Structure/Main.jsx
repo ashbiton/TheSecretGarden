@@ -4,6 +4,8 @@ import About from "../General/About";
 import Contact from "../General/Contact";
 import HomePage from "../General/HomePage";
 import UsersPage from "../Users/UsersPage";
+import CatalogPage from "../Catalog/CatalogPage";
+import Chat from '../Chat/Chat';
 class Main extends Component {
     constructor(props) {
         super(props);
@@ -19,10 +21,11 @@ class Main extends Component {
                 <Route path="/contact" component={Contact} />
                 {/* the following should be a private route */}
                 <Route path="/users" component={UsersPage} />
-                {/* <Route path="/stock" component={StockRoute}/> */}
+                <Route path="/catalog" component={CatalogPage}/>
             {/* <PrivateRoute path="/orders" component={Orders}/> */}
             
             </Switch>
+            <Chat />
         </main>);
     }
 }

@@ -9,12 +9,11 @@ waitASec = (func) => {
 }
 
 router.get('/', async (req, res) => {
-    let customerHeaders = ["phone", "email", "username"];
+    let customerHeaders = ["name","surname","phone", "email", "username"];
     let canEditCustomer = false;
     // let position = await usersDB.getUserPosition(req.body.username);
     let position = "manager";
     if (position === "manager") {
-        customerHeaders.push("password");
         canEditCustomer = true;
     }
     let objectElement = [
@@ -28,7 +27,7 @@ router.get('/', async (req, res) => {
     ]
     if (position === "manager") {
 
-        let workerHeaders = [...customerHeaders, "branch", "payment", "position"]
+        let workerHeaders = [...customerHeaders, "branch", "payment"]
         objectElement.push({
             position: "employee",
             positionPlural: "Employees",

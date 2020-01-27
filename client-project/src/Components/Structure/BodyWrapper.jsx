@@ -3,7 +3,7 @@ import "./Structure.scss";
 import Navbar from './Navbar';
 import Footer from './Footer';
 import Main from './Main';
-import RegistrationModals from '../Modals/RegistrationModals';
+import RegistrationModals from '../Registration/RegistrationModals';
 class BodyWrapper extends Component {
     constructor(props) {
         super(props);

@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import { observer, inject } from "mobx-react";
 import AddEditUserModal from "./AddEditUserModal";
 import { Accordion, Card, Button } from 'react-bootstrap';
 const { getAll } = require('../../utils/server_utils');
@@ -8,20 +9,23 @@ class UsersPage extends Component {
         this.state = {
             addEditModalOpen: false,
             users: [],
-            modalProps: {},
-            rerender: false
+            modalProps: {}
         }
     }
     getUsers = async () => {
+        console.log("1", this.props.User.user.username);
+        this.props.User.user.username = "aviya";
         let users = await getAll('users');
         this.setState({ users: users });
+        console.log("2", this.props.User.user.username);
     }
     componentDidMount() {
         this.getUsers();
     }
-    // onRefresh = () => {
-    //     this.getUsers();
-    // }
+
+    onRefresh = () => {
+        this.getUsers();
+    }
 
     handleOpenModal = (mode, position, _user) => {
         // _user will have data only if in edit mode
@@ -48,23 +52,19 @@ class UsersPage extends Component {
         return (
             <Fragment>
                 <AddEditUserModal show={this.state.addEditModalOpen} onClose={this.handleCloseModal} {...this.state.modalProps} />
-                <div className="container-fluid">
-                    <div className="container pt-3 pb-5">
-                        <div className="row mb-4">
-                            <div className="col">
-                                <ul className="nav nav-pills">
-                                    <li className="nav-item" id="refreshUsers">
-                                        <a className="nav-link active" onClick={this.onRefresh}><i className="fa pr-2">&#xf021;</i>Refresh</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+
+                <div className="container pt-3 pb-5">
+                    <ul className="nav nav-pills">
+                        <li className="nav-item" id="refreshUsers">
+                            <a className="nav-link active" onClick={this.onRefresh}><i className="fa pr-2">&#xf021;</i>Refresh</a>
+                        </li>
+                    </ul>
                 </div>
-                <Accordion defaultActiveKey="0">
+                <Accordion defaultActiveKey={0}>
                     {
-                        this.state.users.forEach((usersElement, index) =>
-                            <UsersByPosition id={usersElement.position + "table"} index={index} usersData={usersElement} addUser={(...args) => this.handleOpenModal("add", usersElement.position, ...args)} editUser={(...args) => this.handleOpenModal("edit", ...args)} />
+                        this.state.users.map((usersElement, index) => {
+                            return <UsersByPosition key={usersElement.position + "table"} index={index} usersData={usersElement} addUser={(...args) => this.handleOpenModal("add", usersElement.position, undefined, ...args)} editUser={(...args) => this.handleOpenModal("edit", ...args)} />
+                        }
                         )
                     }
                 </Accordion>
@@ -89,34 +89,38 @@ class UsersByPosition extends Component {
                             <h5 className="card-title capitilize">{usersData.positionPlural}</h5>
                             <div className="user-table-links">
                                 <button className="btn btn-link" onClick={this.props.addUser} title="Click to add"><i className="fas">&#xf234;</i></button>
-                                <Accordion.Toggle as={Button} variant="link" eventKey={this.props.index}></Accordion.Toggle>
+                                <Accordion.Toggle as={Button} variant="link" eventKey={this.props.index}><i className="fas fa-angle-down"></i></Accordion.Toggle>
                             </div>
                         </div>
                     </div>
                 </Card.Header>
                 <Accordion.Collapse eventKey={this.props.index}>
                     <Card.Body>
-                        <div className="table-responsive">
-                            <table className="table table-hover">
-                                <thead>
-                                    <tr>
+                        {usersData.users.length === 0 ?
+                            <div>No {usersData.positionPlural} Found</div>
+                            :
+                            <div className="table-responsive">
+                                <table className="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            {
+                                                usersData.headers.map((header, index) => {
+                                                    return <th className="colored-header capitilize" scope="col" key={usersData.position + header + index}>{header}</th>
+                                                })
+                                            }
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
                                         {
-                                            usersData.headers.forEach((header, index) =>
-                                                <th className="colored-header" scope="col" id={usersData.position + header + index}>{header}</th>
-                                            )
+                                            usersData.users.map((user, index) => {
+                                                return <SingleUser key={usersData.position + index + "user"} user={user} headers={usersData.headers} canEdit={usersData.canEdit} editUser={this.props.editUser} />
+                                            })
                                         }
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {
-                                        usersData.users.forEach((user, index) =>
-                                            <SingleUser id={this.position + index + "user"} user={user} headers={usersData.headers} canEdit={usersData.canEdit} editUser={this.props.editUser} />
-                                        )
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
                     </Card.Body>
                 </Accordion.Collapse>
             </Card>
@@ -139,8 +143,8 @@ class SingleUser extends Component {
         return (
             <tr>
                 {
-                    this.props.headers.forEach((header, index) =>
-                        <td id={header + this.user.position + index}>{this.user[header]}</td>
+                    this.props.headers.map((header, index) =>
+                        <td key={header + this.user.position + index}>{this.user[header]}</td>
                     )
                 }
                 <td>
@@ -168,4 +172,4 @@ class SingleUser extends Component {
 
 
 
-export default UsersPage;
+export default inject('User')(observer(UsersPage));
