@@ -14,7 +14,7 @@ class About extends Component {
                     <hr className="featurette-divider" />
                     <div className="row align-items-center py-2 my-4">
                         <div className="col-md-4">
-                            <div className="about-img rounded-circle mx-auto"><img src="./images/about/bride.jpg" alt="the secret garden about img" /></div>
+                            <div className="about-img rounded-circle mx-auto"><img src="images/about/bride.jpg" alt="the secret garden about img" /></div>
                         </div>
                         <div className="col-md-8 pt-md-0 pt-5">
                             <h1 className="colored-header capitilize">wedding season</h1>
@@ -27,7 +27,7 @@ class About extends Component {
                     <hr className="featurette-divider" />
                     <div className="row align-items-center py-2 my-4">
                         <div className="col-md-4">
-                            <div className="about-img rounded-circle mx-auto"><img src="./images/about/spring.jpg" alt="the secret garden about img" /></div>
+                            <div className="about-img rounded-circle mx-auto"><img src="images/about/spring.jpg" alt="the secret garden about img" /></div>
                         </div>
                         <div className="col-md-8 pt-md-0 pt-5 float-md-right">
                             <h1 className="colored-header capitilize">spring sale</h1>
@@ -40,7 +40,7 @@ class About extends Component {
                     <hr className="featurette-divider" />
                     <div className="row align-items-center py-2 my-4">
                         <div className="col-md-4">
-                            <div className="about-img rounded-circle mx-auto"><img src="./images/about/hospital.jpg" alt="the secret garden about img" /></div>
+                            <div className="about-img rounded-circle mx-auto"><img src="images/about/hospital.jpg" alt="the secret garden about img" /></div>
                         </div>
                         <div className="col-md-8 pt-md-0 pt-5">
                             <h1 className="colored-header capitilize">giving back to the community</h1>

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import AddFlower from './AddFlower';
 import { Tab, Tabs } from "react-bootstrap";
+import { observer, inject } from "mobx-react";
 const { getAll } = require('../../utils/server_utils')
 
 class CatalogPage extends Component {
@@ -9,11 +10,11 @@ class CatalogPage extends Component {
         this.state = {}
     }
     render() {
-        const canAdd = true;
+        const canAdd = this.props.User.user && this.props.User.user.position == "supplier";
         if (canAdd) {
             return (
                 <div className="container-fluid pt-2">
-                    <Tabs defaultActiveKey={0}>
+                    <Tabs defaultActiveKey={1}>
                         <Tab eventKey={0} title="Add Flower">
                             <div className="container">
                                 <div className="row">
@@ -79,10 +80,13 @@ class Flower extends Component {
     }
     render() {
         const flower = this.props.flower;
+        const src = (flower.img.includes("http") || flower.img.includes("base64")) ? flower.img : `images/flowers/${flower.img}`
         return (
             <div className="flip-card flower-item">
                 <div className="flip-card-inner">
-                    <div className="flip-card-front"><img className="flower-img" alt="Card image cap" /></div>
+                    <div className="flip-card-front">
+                        <img className="flower-img" alt="Card image cap" src={src}/>
+                    </div>
                     <div className="flip-card-back flower-details">
                         <div className="container-fluid">
                             <div className="row">
@@ -92,13 +96,13 @@ class Flower extends Component {
                             </div>
                             <div className="row">
                                 <div className="col">
-                                    <p>Color :
+                                    <p>
                                         {
                                             flower.color.map((color, index) => {
-                                                const colorStyle = "color:" + color;
+                                                const colorStyle = { color: color };
                                                 return (
                                                     <span key={"flower-" + this.props.key + "-color-" + index}>
-                                                        <i className="fa" style={{colorStyle}}>&#xf1fc</i>
+                                                        <i className="fas fa-paint-brush" style={ colorStyle }></i>
                                                     </span>
                                                 )
                                             })
@@ -108,7 +112,7 @@ class Flower extends Component {
                             </div>
                             <div className="row">
                                 <div className="col">
-                                    <p>Cost : {flower.cost}</p>
+                                    <p><strong>{flower.cost}  </strong><i class="fas fa-money-bill-wave"></i></p>
                                 </div>
                             </div>
                         </div>
@@ -118,4 +122,4 @@ class Flower extends Component {
     }
 }
 
-export default CatalogPage;
+export default inject('User')(observer(CatalogPage));

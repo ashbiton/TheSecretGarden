@@ -138,7 +138,7 @@ class SingleUser extends Component {
         }
     }
     deleteUser = () => {
-        deleteUser({ username: this.props.user.username });
+        deleteUser(JSON.stringify({ username: this.props.user.username }));
     }
     render() {
         return (

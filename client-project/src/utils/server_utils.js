@@ -57,7 +57,7 @@ export async function login(userData) {
 export async function register(newUserData) {
     newUserData.position = "customer";
     newUserData.register = true;
-    let [body, error] = await sendRequestToServer(Methods.POST, "user", newUserData);
+    let [body, error] = await sendRequestToServer(Methods.POST, "user", JSON.stringify(newUserData));
     if (error) {
         return error;
     }

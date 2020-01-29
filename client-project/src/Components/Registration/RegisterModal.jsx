@@ -13,7 +13,7 @@ class RegisterModal extends Component {
         data.forEach((value, key) => {
             console.log("key", key, "value", value);
         });
-        let err = await register(data);
+        let err = await register((Object.fromEntries(data)));
         console.log("err?",err);
     }
     render() {

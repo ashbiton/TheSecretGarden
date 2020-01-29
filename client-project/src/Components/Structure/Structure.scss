@@ -179,15 +179,15 @@ nav button.navbar-toggler[aria-expanded="true"] span::after{
 .about {
     padding-top: 15px;
 }
-// .about header {
-//     background-image: url('../images/logo/background4.png');
-//     background-position: center;
-//     background-repeat: no-repeat;
-//     background-size: cover;
-//     background-blend-mode: luminosity;
-//     width: 100%;
-//     height: calc(100vh - 80px);
-// }
+.about header {
+    background-image: url('/images/logo/background4.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-blend-mode: luminosity;
+    width: 100%;
+    height: calc(100vh - 80px);
+}
 .about header , .about .col {
     border-radius: 30px;
 }
