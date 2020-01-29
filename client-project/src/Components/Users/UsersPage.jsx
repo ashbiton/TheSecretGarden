@@ -2,22 +2,17 @@ import React, { Component, Fragment } from 'react';
 import { observer, inject } from "mobx-react";
 import AddEditUserModal from "./AddEditUserModal";
 import { Accordion, Card, Button } from 'react-bootstrap';
-const { getAll } = require('../../utils/server_utils');
+const { deleteUser } = require('../../utils/server_utils');
 class UsersPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
             addEditModalOpen: false,
-            users: [],
             modalProps: {}
         }
     }
     getUsers = async () => {
-        console.log("1", this.props.User.user.username);
-        this.props.User.user.username = "aviya";
-        let users = await getAll('users');
-        this.setState({ users: users });
-        console.log("2", this.props.User.user.username);
+        this.props.Users.getUsers();
     }
     componentDidMount() {
         this.getUsers();
@@ -44,7 +39,10 @@ class UsersPage extends Component {
             modalProps: {}
         }, async () => {
             if (shouldRefresh) {
+                console.log("before",this.props.Users.users);
                 await this.getUsers();
+                console.log("after",this.props.Users.users);
+
             }
         })
     }
@@ -62,7 +60,7 @@ class UsersPage extends Component {
                 </div>
                 <Accordion defaultActiveKey={0}>
                     {
-                        this.state.users.map((usersElement, index) => {
+                        this.props.Users.users.map((usersElement, index) => {
                             return <UsersByPosition key={usersElement.position + "table"} index={index} usersData={usersElement} addUser={(...args) => this.handleOpenModal("add", usersElement.position, undefined, ...args)} editUser={(...args) => this.handleOpenModal("edit", ...args)} />
                         }
                         )
@@ -139,6 +137,9 @@ class SingleUser extends Component {
             this.props.editUser(this.user.position, this.user);
         }
     }
+    deleteUser = () => {
+        deleteUser({ username: this.props.user.username });
+    }
     render() {
         return (
             <tr>
@@ -172,4 +173,4 @@ class SingleUser extends Component {
 
 
 
-export default inject('User')(observer(UsersPage));
+export default inject('User', 'Users')(observer(UsersPage));

@@ -94,11 +94,11 @@ class Flower extends Component {
                                 <div className="col">
                                     <p>Color :
                                         {
-                                            this.flower.color.map((color, index) => {
+                                            flower.color.map((color, index) => {
                                                 const colorStyle = "color:" + color;
                                                 return (
                                                     <span key={"flower-" + this.props.key + "-color-" + index}>
-                                                        <i className="fa" style={colorStyle}>&#xf1fc</i>
+                                                        <i className="fa" style={{colorStyle}}>&#xf1fc</i>
                                                     </span>
                                                 )
                                             })

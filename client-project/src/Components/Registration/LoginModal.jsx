@@ -1,19 +1,21 @@
 import React, { Component } from 'react';
+import { observer, inject } from "mobx-react";
 import { Modal } from 'react-bootstrap';
 const { login } = require('../../utils/server_utils');
 class LoginModal extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            password: '',
-            username: ''
         }
         this.modalId = this.props.modalId;
     }
     onLogin = async (e) => {
         e.preventDefault();
         const data = new FormData(e.currentTarget);
-        await login(data);
+        data.forEach((value, key) => {
+            console.log("key", key, "value", value);
+        });
+        this.props.User.loginUser(JSON.stringify(Object.fromEntries(data)),data.get("username"));
     }
     render() {
         return (
@@ -43,7 +45,7 @@ class LoginModal extends Component {
                                                 </div>
                                                 <button className="btn btn-primary" id="loginBtn" type="submit">Login</button>
                                             </form>
-                                            <p id="error"></p>
+                                            <p id="error">{this.props.User.loginErrText}</p>
                                         </div>
                                     </div>
                                     <div className="row mt-4">
@@ -61,4 +63,4 @@ class LoginModal extends Component {
     }
 }
 
-export default LoginModal;
+export default inject('User')(observer(LoginModal));

@@ -6,7 +6,7 @@ class Worker extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            branches: [],
+            branches: [1, 2, 3, 4, 5],
             positions: []
         }
     }
@@ -17,7 +17,7 @@ class Worker extends Component {
     }
     getBranches = async () => {
         const branches = await getAll("branches");
-        this.setState({ branches })
+        // this.setState({ branches })
     }
     componentDidMount() {
         this.getBranches();
@@ -33,7 +33,7 @@ class Worker extends Component {
                     <div className="col-md-10">
                         <select className="form-control branch" required="required" name="branch" defaultValue={data.branch || 1}>
                             {
-                                this.state.branches.map((branchNum,index) => {
+                                this.state.branches.map((branchNum, index) => {
                                     return <option key={`branch-${index}-select-option`} value={branchNum}>{branchNum}</option>
                                 })
                             }
@@ -47,18 +47,18 @@ class Worker extends Component {
                         <small className="form-text text-muted">Payment per Hour</small>
                     </div>
                 </div>
-                <div className="form-group row">
+                {data.position && <div className="form-group row">
                     <label className="col-md-2 col-form-label">Position</label>
                     <div className="col-md-10">
-                        <select className="form-control position" required="required" name="position" defaultValue={data.position || "consumer"} disabled={data.position == undefined}>
-                        {
-                                this.state.positions.map((position,index) => {
-                                    return <option key={`position-${index}-select-option`} value={position}>{position}</option>
+                        <select className="form-control position" required="required" name="position">
+                            {
+                                this.state.positions.map((position, index) => {
+                                    return <option key={`position-${index}-select-option`} value={position} selected={position === data.position}>{position}</option>
                                 })
                             }
                         </select>
                     </div>
-                </div>
+                </div>}
             </Fragment>
         )
     }

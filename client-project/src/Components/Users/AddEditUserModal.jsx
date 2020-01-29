@@ -10,16 +10,24 @@ class AddEditUserModal extends Component {
         }
     }
     onFormSubmitted = async (e) => {
+        let error = undefined;
         e.preventDefault();
         if (this.props.mode == "edit") {
             const data = this.collectUserDataEditMode(e);
-            await updateUser(data);
+            error = await updateUser(data);
         }
         else {
             const data = this.collectUserDataAddMode(e);
-            await addUser(data);
+            error = await addUser(data);
         }
-        this.setState({ userAddedOrChanged: true });
+        if (!error) {
+            this.setState({ userAddedOrChanged: true }, () => {
+                this.props.onClose(true);
+            });
+        }
+        else {
+            //handle error case
+        }
     }
     render() {
         const user = this.props.user;
@@ -47,7 +55,7 @@ class AddEditUserModal extends Component {
         data.forEach((value, key) => {
             console.log("key", key, "value", value);
         });
-
+        return JSON.stringify(Object.fromEntries(data));
     }
 
     collectUserDataAddMode = (e) => {
@@ -58,6 +66,7 @@ class AddEditUserModal extends Component {
         data.forEach((value, key) => {
             console.log("key", key, "value", value);
         });
+        return JSON.stringify(Object.fromEntries(data));
     }
 }
 

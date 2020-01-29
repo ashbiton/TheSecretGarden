@@ -9,18 +9,18 @@ exports.getUserByPositionHeaders = async (args) => {
     //create a string of projection
     // await User.findOne(args,)
 }
-exports.getHeadersForPosition = (position , includePassword) => {
-    let customerHeaders = ["name","surname","email","phone", "username"];
+exports.getHeadersForPosition = (position, includePassword) => {
+    let customerHeaders = ["name", "surname", "email", "phone", "username", "position"];
     if (includePassword) customerHeaders.push('password');
-    let employeeHeaders = [...customerHeaders, "payment","branch","position"];
-    let supplierHeaders = [...customerHeaders , "flowers"];
+    let employeeHeaders = [...customerHeaders, "payment", "branch"];
+    let supplierHeaders = [...customerHeaders, "flowers"];
     switch (position) {
         case "manager":
         case "employee":
             return employeeHeaders;
         case "supplier":
             return supplierHeaders;
-        default: 
+        default:
             return customerHeaders;
     }
 }
@@ -62,7 +62,7 @@ exports.getAllPositions = async () => {
     return positions;
 }
 
-exports.resetUserPassword = async (user,password) => {
+exports.resetUserPassword = async (user, password) => {
     user.resetPasswordToken = undefined;
     user.resetPasswordExpires = undefined;
     await user.setPassword(password);
@@ -86,10 +86,10 @@ exports.addUser = async (userObj) => {
         await user.save();
         // const { user } = await DefaultUser.authenticate()('user', 'password');
         console.log(user);
-        return [{ code: 200, text: "User Successfully Added" } , user]
+        return [{ code: 200, text: "User Successfully Added" }, user]
     } catch (err) {
         console.log(`error adding user : ${err}`);
-        return [{ code: 404, text: "Error Adding User" },null]
+        return [{ code: 404, text: "Error Adding User" }, null]
     }
 }
 
@@ -108,11 +108,11 @@ exports.deleteUser = async (username) => {
 }
 
 exports.updateCurrUser = async (currUsername, updatedUserObj) => {
-        await User.findOneAndUpdate({username: currUsername},updatedUserObj);  
+    await User.findOneAndUpdate({ username: currUsername }, updatedUserObj);
 }
 
 exports.updateUser = async (updatedUserObj) => {
-    if (!updatedUserObj.username || !updatedUserObj.password) {
+    if (!updatedUserObj.username) {
         return { code: 404, text: "User Must Have Username and Password" };
     }
     let username = updatedUserObj.username;
@@ -124,24 +124,24 @@ exports.updateUser = async (updatedUserObj) => {
     debug(`update info ${Object.keys(updatedUserObj)}`)
 
     try {
-        let password = updatedUserObj.password;
-        delete updatedUserObj.password;
-        await User.findOneAndUpdate({username: username},updatedUserObj);
-        await user.setPassword(password);
+        // let password = updatedUserObj.password;
+        // delete updatedUserObj.password;
+        await User.findOneAndUpdate({ username: username }, updatedUserObj);
+        // await user.setPassword(password);
         await user.save();
         return { code: 200, text: "User Successfully Updated" };
     } catch (error) {
         debug(`error while updating user ${username} : ${error}`);
-        return { code: 404, text: "unable to update user" };        
+        return { code: 404, text: "unable to update user" };
     }
 }
 
-exports.addFlowerToSupplier = async (supplier , flowerID) => {
-    let user = await User.findOne({username : supplier});
-    if (!user || user.position !== "supplier"){
+exports.addFlowerToSupplier = async (supplier, flowerID) => {
+    let user = await User.findOne({ username: supplier });
+    if (!user || user.position !== "supplier") {
         throw "the user is not a supplier";
     }
-    await User.updateOne({username: supplier},{$push : {flowers: flowerID}});
+    await User.updateOne({ username: supplier }, { $push: { flowers: flowerID } });
     console.log("flower added to supplier")
 }
 

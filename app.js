@@ -29,7 +29,7 @@ var resetRouter = require('./routes/reset');
 var userDataRouter = require('./routes/userData');
 var userProfileRouter = require('./routes/userProfile');
 
-const secret="harry potter is not cool";
+const secret = "harry potter is not cool";
 
 var app = express();
 
@@ -45,12 +45,14 @@ app.use(cookieParser(secret));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(session({secret: secret}));
-app.use(cors());
-
-
+app.use(session({
+  resave: false,
+  saveUninitialized: false,
+  secret: secret
+}));
 app.use(passport.initialize());
 app.use(passport.session());
+// app.use(cors());
 
 
 var User = require('./model')("User");
@@ -59,9 +61,22 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+// app.use(function (req,res,next) {
+//   res.header("Access-Control-Allow-Origin", "*");
+//   req.header("Access-Control-Allow-Origin","*");
+//   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+//   req.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+//   next();
+// })
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
+  res.header("Access-Control-Allow-Headers", "*");
+  res.header("Access-Control-Allow-Methods", "*");
+  next();
+});
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/user', userRouter);
+app.use('/users', nocache, usersRouter);
+app.use('/user', nocache, userRouter);
 app.use('/about', aboutRouter);
 app.use('/contact', contactRouter);
 app.use('/links', linksRouter);
@@ -77,13 +92,21 @@ app.use('/reset', resetRouter);
 app.use('/userData', userDataRouter);
 app.use('/userProfile', userProfileRouter);
 
+function nocache(req, res, next) {
+  res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+  res.header('Expires', '-1');
+  res.header('Pragma', 'no-cache');
+  next();
+}
+
+
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};

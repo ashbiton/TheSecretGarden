@@ -5,7 +5,7 @@ const usersDB = require('../usersDB');
 
 const https = require('https');
 const multer = require("multer");
-const upload = multer({ dest: "public/images/flowers" });
+const upload = multer({ dest: "client-project/public/images/flowers" });
 const path = require('path');
 const fs = require('fs');
 // you might also want to set some limits: https://github.com/expressjs/multer#limits
@@ -58,6 +58,7 @@ router.post('/', upload.single("file"), async function (req, res, next) {
 
   if (!isSuccess) {
     res.send({ code: 500, text: message });
+    return;
   }
   if (req.file){
     const tempPath = req.file.path;
@@ -69,7 +70,7 @@ router.post('/', upload.single("file"), async function (req, res, next) {
         res.send({ code: 500, text: message });
       });
     }
-    const targetPath = `public/images/flowers/${image_name}`;
+    const targetPath = `client-project/public/images/flowers/${image_name}`;
     // renaming the image to the correct name
     fs.rename(tempPath, targetPath, err => {
       if (err) return handleError(err, res);
@@ -77,40 +78,9 @@ router.post('/', upload.single("file"), async function (req, res, next) {
     });
 
   }
-
-  
-  // if (!req.file) {
-  //   if (!isSuccess) {
-  //     res.send({ code: 500, text: message });
-  //   }
-  //   else {
-  //     await saveImageToDisk(img_url, `public/images/flowers/${image_name}`);
-  //   }
-  // }
-  // else //there a req.file
-  // {
-  //   const tempPath = req.file.path;
-  //   if (!isSuccess) {
-  //     // remove the file
-  //     fs.unlink(tempPath, err => {
-  //       if (err) return handleError(err, res);
-  //       // sending the error message
-  //       res.send({ code: 500, text: message });
-  //     });
-  //   }
-  //   const targetPath = `public/images/flowers/${image_name}`;
-  //   // renaming the image to the correct name
-  //   fs.rename(tempPath, targetPath, err => {
-  //     if (err) return handleError(err, res);
-
-  //   });
-  // }
-
-
   // updating the supplier of the new flower
-  // no need to do await because the user is not waiting for this validation
   try {
-    usersDB.addFlowerToSupplier(supplier, _id);
+    await usersDB.addFlowerToSupplier(supplier, _id);
     res.send({ code: 200, text: "Flower Successfully Added!" });
   } catch (err) {
     return handleError(err, res);

@@ -18,10 +18,10 @@ let getInfoByHeaders = (user) => {
 }
 
 router.get('/',async (req,res)=> {
-    let user = undefined;
-    if (req.user){
-        user = getInfoByHeaders(req.user);
-    }
+    const username = req.headers["x-user"];
+    let user = await usersDB.findOne({username : username});
+    console.log("user found",user);
+    user = getInfoByHeaders(user);
     res.json({user: user});
 })
 

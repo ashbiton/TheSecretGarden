@@ -22,7 +22,6 @@ class Main extends Component {
                 {/* the following should be a private route */}
                 <Route path="/users" component={UsersPage} />
                 <Route path="/catalog" component={CatalogPage}/>
-            {/* <PrivateRoute path="/orders" component={Orders}/> */}
             
             </Switch>
             <Chat />
