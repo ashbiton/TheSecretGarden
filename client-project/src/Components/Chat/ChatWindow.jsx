@@ -4,11 +4,12 @@ import './chatWindow.scss';
 import 'bootstrap/dist/css/bootstrap.css';
 import socketIOClient from "socket.io-client";
 import { observer, inject } from "mobx-react";
+const { capitilize } = require('../../utils/general_utils');
 
 class ChatWindow extends Component {
     constructor(props) {
         super(props);
-        this.userName = props.User.user.username;
+        this.userName = capitilize(props.User.user.name.charAt(0))+capitilize(props.User.user.surname.charAt(0));
         this.state = {
             endpoint: "localhost:5000",
             message: '',
@@ -124,7 +125,7 @@ class ChatWindow extends Component {
                     <span className="msg_time_send">{message.time}</span>
                 </div>
                 <div className="img_cont_msg">
-                    <div className="rounded-circle user_img_msg littleCircle">{this.state.name.charAt(0)}</div>
+                    <div className="rounded-circle user_img_msg littleCircle">{capitilize(this.state.name.charAt(0))}</div>
                 </div>
             </div>;
         }
@@ -133,7 +134,7 @@ class ChatWindow extends Component {
 
             return <div key={message.time} className="d-flex justify-content-start mb-4">
                 <div className="img_cont_msg">
-                    <div className="rounded-circle user_img_msg littleCircleStart">{message.name.charAt(0)}</div>
+                    <div className="rounded-circle user_img_msg littleCircleStart">{capitilize(message.name.charAt(0))}</div>
                 </div>
                 <div className="msg_cotainer">
                     {message.content}
