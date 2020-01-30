@@ -3,11 +3,12 @@ import { render } from 'react-dom';
 import './chatWindow.scss';
 import 'bootstrap/dist/css/bootstrap.css';
 import socketIOClient from "socket.io-client";
+import { observer, inject } from "mobx-react";
 
 class ChatWindow extends Component {
     constructor(props) {
         super(props);
-        this.userName = props.userName;
+        this.userName = props.User.user.username;
         this.state = {
             endpoint: "localhost:5000",
             message: '',
@@ -45,13 +46,13 @@ class ChatWindow extends Component {
             <div>
                 <div className="container-fluid h-100">
                     <div className="row justify-content-center h-100">
-
                         <div className="col-md-8 col-xl-6 chat">
-                            <div className="popup-box chat-popup" id="qnimate">
+                            <div class="popup-box chat-popup" >
                                 <div className="card">
                                     
                                     <div className="card-header msg_head">
                                         <div className="d-flex bd-highlight">
+                                        <span class="chat-header-button pull-right" onClick={this.props.onClose}><i className="fas fa-times"></i></span>
                                             <div className="img_cont">
                                                 <div className="rounded-circle user_img userNameCard">{this.userName}</div>
                                                 <span className="online_icon"></span>
@@ -60,14 +61,11 @@ class ChatWindow extends Component {
                                                 <span>Chat</span>
                                                 <p>{this.state.allMessages.length} Messages </p>
                                             </div>
-                                            <span className="chat-header-button pull-right" onClick={this.props.onClose}><i className="fas fa-times"></i></span>
                                         </div>
 
                                     </div>
                                     <div className="card-body msg_card_body">
-            
                                             {this.renederMessages()}
-            
                                     </div>
 
                                     <div className="card-footer">
@@ -126,7 +124,7 @@ class ChatWindow extends Component {
                     <span className="msg_time_send">{message.time}</span>
                 </div>
                 <div className="img_cont_msg">
-                    <div className="rounded-circle user_img_msg littleCircle">{this.state.name}</div>
+                    <div className="rounded-circle user_img_msg littleCircle">{this.state.name.charAt(0)}</div>
                 </div>
             </div>;
         }
@@ -135,7 +133,7 @@ class ChatWindow extends Component {
 
             return <div key={message.time} className="d-flex justify-content-start mb-4">
                 <div className="img_cont_msg">
-                    <div className="rounded-circle user_img_msg littleCircleStart">{message.name}</div>
+                    <div className="rounded-circle user_img_msg littleCircleStart">{message.name.charAt(0)}</div>
                 </div>
                 <div className="msg_cotainer">
                     {message.content}
@@ -147,4 +145,4 @@ class ChatWindow extends Component {
 
 }
 
-export default ChatWindow;
+export default inject('User')(observer(ChatWindow));
