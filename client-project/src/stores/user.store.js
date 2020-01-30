@@ -5,16 +5,18 @@ class User {
     user = undefined;
     loginErrText = "";
 
-    loginUser(userData, username) {
+    loginUser(userData, username, onSuccess) {
         this.loginErrText = "";
         login(userData).then(err => {
             if (err) {
-                runInAction(() => { this.loginErrText = err })
+                runInAction(() => { this.loginErrText = "username or password are wrong" });
             } else {
                 getSingle("user", username).then(userObject => {
                     runInAction(() => {
                         this.user = userObject;
+                        this.loginErrText = "Successfully Logged In!"
                     })
+                    onSuccess();
                 })
             }
         })

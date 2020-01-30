@@ -15,8 +15,8 @@ class Main extends Component {
         return ( 
             <main role="main" className="container">
             <Switch>
-                <Route exact path="/" component={HomePage} />
-                <Route exact path="/home" component={HomePage} />
+                <Route exact path="/" component={About} />
+                <Route exact path="/home" component={About} />
                 <Route path="/about" component={About} />
                 <Route path="/contact" component={Contact} />
                 {/* the following should be a private route */}

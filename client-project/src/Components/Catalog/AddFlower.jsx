@@ -201,17 +201,18 @@ class AddFlower extends Component {
         e.preventDefault();
         let fd = new FormData(e.currentTarget);
         fd.set("name", capitilize(fd.get("name")));
-        // const flowerExist = this.props.Flowers.checkFlowerExist(fd.get('name'));
-        // if (flowerExist) {
-        //     this.props.AddFlower.errorText = "Flower already exists";
-        //     return;
-        // }
+        const flowerExist = this.props.Flowers.checkFlowerExist(fd.get('name'));
+        if (flowerExist) {
+            this.props.AddFlower.errorText = "Flower already exists";
+            return;
+        }
         fd.set("supplier", this.props.User.user.username);
-        let error = await addFlower(fd,this.props.User.user.username);
-        if (error){
+        let error = await addFlower(fd, this.props.User.user.username);
+        if (error) {
             this.props.AddFlower.errorText = error;
-        }else {
+        } else {
             this.props.AddFlower.errorText = "Flower successfully added";
+            this.props.Flowers.getFlowers();
         }
     }
 
@@ -255,8 +256,8 @@ class AddFlower extends Component {
                                     <div className="form-group mt-2">
                                         <label htmlFor="flowerImageFileInput">Flower Image</label>
                                         <input className="form-control-file" id="flowerImageFileInput" onInput={this.onInputFile} onChange={this.onChangeFile} name="file" type="file" accept="image/png, image/jpeg, image/jpg" required={this.props.AddFlower.imageInput.file.required} />
-                                        <div className="my-2 font-weight-bold">OR</div>
-                                        <input className="form-control" id="flowerImageURLInput" name="img_url" type="url" onInput={this.onInputUrl} onChange={this.onChangeUrl} placeholder="Enter image URL here" required={this.props.AddFlower.imageInput.url.required} />
+                                        {/* <div className="my-2 font-weight-bold">OR</div> */}
+                                        {/* <input className="form-control" id="flowerImageURLInput" name="img_url" type="url" onInput={this.onInputUrl} onChange={this.onChangeUrl} placeholder="Enter image URL here" required={this.props.AddFlower.imageInput.url.required} /> */}
                                         <small className="form-text text-muted"> For best preformences - please make sure <strong>the image is square</strong>.</small>
                                     </div>
                                 </div>
@@ -264,7 +265,7 @@ class AddFlower extends Component {
                         </div>
                         <div className="row">
                             <div className="col">
-                                <div className="text-danger capitilize mb-3 font-weight-bold" id="addFlowerError"></div>
+                                <div className="text-dark capitilize mb-3 font-weight-bold" id="addFlowerError">{this.props.AddFlower.errorText}</div>
                             </div>
                         </div>
                         <button className="btn btn-primary" type="submit">Done</button>

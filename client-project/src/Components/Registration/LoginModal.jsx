@@ -15,7 +15,7 @@ class LoginModal extends Component {
         data.forEach((value, key) => {
             console.log("key", key, "value", value);
         });
-        this.props.User.loginUser(JSON.stringify(Object.fromEntries(data)),data.get("username"));
+        this.props.User.loginUser(JSON.stringify(Object.fromEntries(data)), data.get("username"), () => { this.props.handleClose(this.modalId) });
     }
     render() {
         return (
@@ -45,7 +45,7 @@ class LoginModal extends Component {
                                                 </div>
                                                 <button className="btn btn-primary" id="loginBtn" type="submit">Login</button>
                                             </form>
-                                            <p id="error">{this.props.User.loginErrText}</p>
+                                            <p className="m-3" id="error">{this.props.User.loginErrText}</p>
                                         </div>
                                     </div>
                                     <div className="row mt-4">

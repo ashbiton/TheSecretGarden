@@ -11,11 +11,19 @@ class Flowers {
             })
         });
     }
+
+    checkFlowerExist(flowerName){
+        let flowerWithSameName = this.flowers.find((flower) => flower.name.toLowerCase() === flowerName.toLowerCase());
+        return flowerWithSameName != undefined;
+    }
+
 }
 
 decorate(Flowers,{
     flowers: observable,
-    getFlowers: action
+    getFlowers: action,
+    checkFlowerExist: action
+
 })
 
 export default new Flowers();
