@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
 import { observer, inject } from "mobx-react";
-const { getAll } = require('../../utils/server_utils');
-
-
 class FlowerContainer extends Component {
     constructor(props) {
         super(props);
@@ -37,6 +34,9 @@ class Flower extends Component {
     constructor(props) {
         super(props);
         this.state = {}
+    }
+    addFlowerToCart = () => {
+        
     }
     render() {
         const flower = this.props.flower;
@@ -73,6 +73,13 @@ class Flower extends Component {
                             <div className="row">
                                 <div className="col">
                                     <p><strong>{flower.cost}  </strong><i class="fas fa-money-bill-wave"></i></p>
+                                </div>
+                            </div>
+                            <div className="row">
+                                <div className="col">
+                                    <button type="button" class="btn btn-default btn-dark btn-sm" onClick={this.addFlowerToCart}>
+                                     Add to Cart
+</button>
                                 </div>
                             </div>
                         </div>

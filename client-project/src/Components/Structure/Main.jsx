@@ -13,7 +13,7 @@ class Main extends Component {
     }
     render() { 
         return ( 
-            <main role="main" className="container">
+            <main role="main" className="container-fluid">
             <Switch>
                 <Route exact path="/" component={About} />
                 <Route exact path="/home" component={About} />

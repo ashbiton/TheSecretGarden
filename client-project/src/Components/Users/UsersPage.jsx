@@ -48,7 +48,7 @@ class UsersPage extends Component {
     }
     render() {
         return (
-            <Fragment>
+            <div className="container">
                 <AddEditUserModal show={this.state.addEditModalOpen} onClose={this.handleCloseModal} {...this.state.modalProps} />
 
                 <div className="container pt-3 pb-5">
@@ -66,7 +66,7 @@ class UsersPage extends Component {
                         )
                     }
                 </Accordion>
-            </Fragment >
+            </div>
         );
     }
 }

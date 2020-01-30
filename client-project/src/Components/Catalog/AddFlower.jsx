@@ -218,7 +218,7 @@ class AddFlower extends Component {
 
     render() {
         return (
-            <div className="card">
+            <div className="card mt-4">
                 <div className="card-body">
                     <form className="form" id="addFlowerForm" onSubmit={this.onFormSubmitted} method="post" encType="multipart/form-data" action="/flower">
                         <div className="container-fluid"></div>

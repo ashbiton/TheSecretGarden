@@ -32,7 +32,7 @@ class CatalogPage extends Component {
             );
         }
         else {
-            return <FlowerContainer />
+            return <div className="pt-3"><FlowerContainer /></div>
         }
     }
 }
