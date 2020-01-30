@@ -14,7 +14,8 @@ class AddEditUserModal extends Component {
         e.preventDefault();
         if (this.props.mode == "edit") {
             const data = this.collectUserDataEditMode(e);
-            error = await updateUser(data);
+            this.props.user.edit(data);
+            error = await updateUser(JSON.stringify(data));
         }
         else {
             const data = this.collectUserDataAddMode(e);
@@ -55,7 +56,7 @@ class AddEditUserModal extends Component {
         data.forEach((value, key) => {
             console.log("key", key, "value", value);
         });
-        return JSON.stringify(Object.fromEntries(data));
+        return Object.fromEntries(data);
     }
 
     collectUserDataAddMode = (e) => {

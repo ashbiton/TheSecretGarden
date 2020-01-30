@@ -17,11 +17,12 @@ class Navbar extends Component {
                 {user && <li className="nav-item" id="catalog"><Link className="nav-link" to="/catalog">Catalog</Link></li>}
                 {user && (user.position === "manager") && <li className="nav-item" id="manage-branches"><Link className="nav-link" to="/branches">Branches</Link></li>}
                 {user && (user.position == "manager" || user.position === "employee") && <li className="nav-item" id="manage-users"><Link className="nav-link" to="/users">Users</Link></li>}
-                {user && <li className="nav-item" id="logout"><a className="nav-link">Log Out</a></li>}
+                {user && <li className="nav-item" id="logout" onClick={()=>{this.props.User.logOut(); }}><a href="/" className="nav-link">Log Out</a></li>}
+        {user && <li className="nav-item" id="cart"><Link className="nav-link" to="/cart"><i className="fas fa-shopping-bag"></i><span id="total-items-in-cart" className="rounded-circle pl-1 font-weight-bold">{this.props.ShoppingCart.totalItems}</span></Link></li>}
 
             </Fragment>
         );
     }
 }
 
-export default inject('User')(observer(Navbar));
+export default inject('User', 'ShoppingCart')(observer(Navbar));

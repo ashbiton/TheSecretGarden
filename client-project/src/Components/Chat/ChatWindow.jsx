@@ -47,12 +47,12 @@ class ChatWindow extends Component {
                 <div className="container-fluid h-100">
                     <div className="row justify-content-center h-100">
                         <div className="col-md-8 col-xl-6 chat">
-                            <div class="popup-box chat-popup" >
+                            <div className="popup-box chat-popup" >
                                 <div className="card">
                                     
                                     <div className="card-header msg_head">
                                         <div className="d-flex bd-highlight">
-                                        <span class="chat-header-button pull-right" onClick={this.props.onClose}><i className="fas fa-times"></i></span>
+                                        <span className="chat-header-button pull-right" onClick={this.props.onClose}><i className="fas fa-times"></i></span>
                                             <div className="img_cont">
                                                 <div className="rounded-circle user_img userNameCard">{this.userName}</div>
                                                 <span className="online_icon"></span>

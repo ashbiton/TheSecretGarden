@@ -77,6 +77,9 @@ class UsersByPosition extends Component {
         this.state = {
         }
     }
+    deleteUser = (username) => {
+        this.props.usersData.deleteUser(username);
+    }
     render() {
         let usersData = this.props.usersData;
         return (
@@ -112,7 +115,7 @@ class UsersByPosition extends Component {
                                     <tbody>
                                         {
                                             usersData.users.map((user, index) => {
-                                                return <SingleUser key={usersData.position + index + "user"} user={user} headers={usersData.headers} canEdit={usersData.canEdit} editUser={this.props.editUser} />
+                                                return <SingleUser key={usersData.position + index + "user"} user={user} headers={usersData.headers} canEdit={usersData.canEdit} editUser={this.props.editUser} deleteUser={this.deleteUser} />
                                             })
                                         }
                                     </tbody>
@@ -134,11 +137,13 @@ class SingleUser extends Component {
     }
     editUser = () => {
         if (this.props.canEdit) {
-            this.props.editUser(this.user.position, this.user);
+            this.props.editUser(this.user.position, this.props.user);
         }
     }
     deleteUser = () => {
         deleteUser(JSON.stringify({ username: this.props.user.username }));
+        this.props.deleteUser(this.props.user.username)
+
     }
     render() {
         return (

@@ -6,6 +6,7 @@ import HomePage from "../General/HomePage";
 import UsersPage from "../Users/UsersPage";
 import CatalogPage from "../Catalog/CatalogPage";
 import Chat from '../Chat/Chat';
+import Cart from "../Cart/Cart";
 class Main extends Component {
     constructor(props) {
         super(props);
@@ -22,6 +23,7 @@ class Main extends Component {
                 {/* the following should be a private route */}
                 <Route path="/users" component={UsersPage} />
                 <Route path="/catalog" component={CatalogPage}/>
+                <Route path="/cart" component={Cart}/>
             
             </Switch>
             <Chat />

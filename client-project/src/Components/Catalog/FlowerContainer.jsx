@@ -8,6 +8,10 @@ class FlowerContainer extends Component {
     componentDidMount() {
         this.props.Flowers.getFlowers();
     }
+
+    addFlowerToCart = (flower) => {
+        this.props.ShoppingCart.onAddItem(flower)
+    }
     render() {
         return (
             <div className="container-fluid">
@@ -17,7 +21,7 @@ class FlowerContainer extends Component {
                             {
                                 this.props.Flowers.flowers.map((flower, index) => {
                                     return (
-                                        <Flower flower={flower} key={"flower-" + index} />
+                                        <Flower flower={flower} key={"flower-" + index} addFlowerToCart={this.addFlowerToCart} />
                                     )
 
                                 })
@@ -36,7 +40,7 @@ class Flower extends Component {
         this.state = {}
     }
     addFlowerToCart = () => {
-        
+        this.props.addFlowerToCart(this.props.flower)
     }
     render() {
         const flower = this.props.flower;
@@ -72,13 +76,13 @@ class Flower extends Component {
                             </div>
                             <div className="row">
                                 <div className="col">
-                                    <p><strong>{flower.cost}  </strong><i class="fas fa-money-bill-wave"></i></p>
+                                    <p><strong>{flower.cost}  </strong><i className="fas fa-money-bill-wave"></i></p>
                                 </div>
                             </div>
                             <div className="row">
                                 <div className="col">
-                                    <button type="button" class="btn btn-default btn-dark btn-sm" onClick={this.addFlowerToCart}>
-                                     Add to Cart
+                                    <button type="button" className="btn btn-default btn-dark btn-sm" onClick={this.addFlowerToCart}>
+                                        Add to Cart
 </button>
                                 </div>
                             </div>
@@ -89,4 +93,4 @@ class Flower extends Component {
     }
 }
 
-export default inject('Flowers')(observer(FlowerContainer));
+export default inject('Flowers', 'ShoppingCart')(observer(FlowerContainer));
