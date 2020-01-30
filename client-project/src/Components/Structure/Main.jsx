@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Route, Switch } from "react-router-dom";
+import { observer, inject } from "mobx-react";
 import About from "../General/About";
 import Contact from "../General/Contact";
 import HomePage from "../General/HomePage";
@@ -12,6 +13,7 @@ class Main extends Component {
         this.state = {  }
     }
     render() { 
+        const user = this.props.User.user;
         return ( 
             <main role="main" className="container-fluid">
             <Switch>
@@ -24,9 +26,14 @@ class Main extends Component {
                 <Route path="/catalog" component={CatalogPage}/>
             
             </Switch>
-            <Chat />
+            <Fragment>
+            <chat >
+                {user && <Chat className="chat-btn" id="chat" ></Chat>}>}
+            </chat>
+
+        </Fragment>
         </main>);
     }
 }
  
-export default Main;
+export default inject('User')(observer(Main));
