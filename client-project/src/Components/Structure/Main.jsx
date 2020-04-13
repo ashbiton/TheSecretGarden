@@ -30,7 +30,7 @@ class Main extends Component {
             </Switch>
             <Fragment>
             <chat >
-                {user && <Chat className="chat-btn" id="chat" ></Chat>}>}
+                {user && <Chat className="chat-btn" id="chat" ></Chat>}
             </chat>
 
         </Fragment>
